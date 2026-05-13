@@ -1,1 +1,14 @@
 @import "tailwindcss";
+
+@theme {
+  --color-cloud: #FFF9F9;
+
+  --color-light-green: #A6FF79;
+  --color-light-green-back: #EAFFE0;
+
+  --color-light-orange: #FFDB79;
+  --color-light-orange-back: #FFF8E3;
+
+  --color-light-red: #FF7979;
+  --color-light-red-back: #FFE1E1;
+}
