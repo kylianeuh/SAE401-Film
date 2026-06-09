@@ -110,6 +110,12 @@ header{width:100%;padding:1.2rem 2rem;display:flex;align-items:center;justify-co
              oninput="resetTest()">
     </div>
 
+    <div class="field">
+      <label>Exclure les films déjà vus (Fichier CSV)</label>
+      <input type="file" id="csv-upload" accept=".csv" style="padding: 0.5rem; background: var(--bg3); border: 1px dashed #ffffff33; cursor: pointer;">
+      <div id="csv-status" style="font-size: 0.75rem; color: var(--gold); margin-top: 0.4rem; text-align: right;"></div>
+    </div>
+
     <div id="test-result"></div>
 
     <button class="btn-test" onclick="testKey()">🔌 Tester la connexion</button>
@@ -169,6 +175,7 @@ const GENRES={28:'Action',12:'Aventure',16:'Animation',35:'Comédie',80:'Crime',
 
 let API_KEY='',LANG='fr-FR',MIN_VOTES=1000;
 let movies=[],idx=0,liked=[],page=1,totalPages=999,busy=false;
+let alreadySeenIds = new Set(); // Stockage ultra-rapide des IDs exclus
 
 /* ── AUTH ── */
 function getHeaders(){
@@ -253,8 +260,19 @@ async function loadMore(){
       include_adult:false
     });
     totalPages=Math.min(d.total_pages,500);
-    movies=movies.concat(d.results);
+    
+    // Filtrage des résultats par rapport au Set des IDs exclus
+    const newMovies = d.results.filter(m => !alreadySeenIds.has(m.id));
+    movies = movies.concat(newMovies);
     page++;
+
+    // Sécurité : si l'API a renvoyé 20 films mais qu'ils étaient tous déjà vus,
+    // on boucle immédiatement sur la page suivante pour ne pas bloquer l'interface.
+    if (movies.length <= idx && page <= totalPages) {
+      loadMore();
+      return;
+    }
+
     renderCard();
   }catch(e){
     setStatus('❌ '+e.message+'<br><button onclick="goBack()" style="margin-top:.5rem;background:var(--gold);color:#1a1408;border:none;border-radius:8px;padding:.4rem 1rem;cursor:pointer;font-size:.8rem">← Retour</button>');
@@ -359,6 +377,28 @@ document.addEventListener('keydown',e=>{
   if(document.getElementById('app').style.display==='none') return;
   if(e.key==='ArrowRight'||e.key==='o'||e.key==='O') vote('yes');
   if(e.key==='ArrowLeft' ||e.key==='n'||e.key==='N') vote('no');
+});
+
+/* ── LECTURE CSV EXCLUSION ── */
+document.getElementById('csv-upload').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(event) {
+    const text = event.target.result;
+    const lines = text.split('\n');
+    alreadySeenIds.clear(); // Réinitialise en cas de nouveau fichier
+
+    lines.forEach(line => {
+      // Nettoie la ligne et convertit en entier (ignore la ligne d'en-tête "id")
+      const id = parseInt(line.trim(), 10);
+      if (!isNaN(id)) alreadySeenIds.add(id);
+    });
+
+    document.getElementById('csv-status').textContent = `✓ ${alreadySeenIds.size} films exclus chargés`;
+  };
+  reader.readAsText(file);
 });
 </script>
 </body>

@@ -33,11 +33,11 @@ const currentStyle = stylesMap[key];
 
   // Configuration des boutons pour éviter la répétition de code (DRY)
   const menuItems = [
-    { type: 'annee', label: 'Année de sortie' },
-    { type: 'notes', label: 'Notes' },
-    { type: 'duree', label: 'Durée' },
-    { type: 'recette', label: 'Recette' },
-    { type: 'date', label: 'Date Précise' },
+    { type: 'annee', label: 'Année de sortie ⭐️' },
+    { type: 'notes', label: 'Notes ⭐️' },
+    { type: 'duree', label: 'Durée ⭐️⭐️⭐️' },
+    { type: 'recette', label: 'Recette ⭐️⭐️' },
+    { type: 'date', label: 'Date Précise ⭐️⭐️⭐️' },
   ]
 
   return (

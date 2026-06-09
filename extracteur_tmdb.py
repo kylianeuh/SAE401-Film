@@ -5,7 +5,7 @@ import time
 
 # --- CONFIGURATION ---
 API_KEY = "7f99cb25a73a03585658e036a85a06d3" 
-CSV_FILE = "id-films.csv"
+CSV_FILE = "id-films-2.csv"
 OUTPUT_FILE = "ma_base_films.json"
 BASE_URL = "https://api.themoviedb.org/3/movie/"
 
