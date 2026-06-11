@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import type { Film } from '../../types/types';
+import type { Film } from '../types/types';
 
 // 1. On définit l'interface pour les propriétés (props) que le composant va recevoir
 interface RightClickProps {

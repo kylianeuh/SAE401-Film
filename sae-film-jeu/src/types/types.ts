@@ -1,5 +1,3 @@
-
-// src/types.ts
 export interface Film {
     id: number;
     image: string;
