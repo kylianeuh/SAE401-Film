@@ -56,7 +56,8 @@ export default function Cards({
           className='w-full h-full object-cover pointer-events-none select-none' 
         />
         
-        <div className='absolute bottom-0 left-0 w-full pt-20 pb-4 px-1 bg-gradient-to-t from-black/90 via-black/70 to-transparent pointer-events-none'>
+        {/* Correction ici : Utilisation de bg-gradient-to-t pour stabiliser le compilateur de la v4 */}
+        <div className='absolute bottom-0 left-0 w-full pt-20 pb-4 px-1 from-black/90 via-black/70 to-transparent pointer-events-none'>
           <p className='text-white text-xs md:text-sm font-medium text-center line-clamp-2'>
             {film.titre}
           </p>

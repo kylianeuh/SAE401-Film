@@ -1,14 +1,17 @@
 @import "tailwindcss";
 
 @theme {
-  --color-cloud: #FFF9F9;
+  --color-fb-cream: #EFEAD8;
+  --color-fb-red: #C5211F;
+  --color-fb-dark: #1E2936;
 
-  --color-light-green: #A6FF79;
-  --color-light-green-back: #EAFFE0;
+  --font-limelight: "Limelight", serif;
+  --font-rokkitt: "Rokkitt", serif;
+}
 
-  --color-light-orange: #FFDB79;
-  --color-light-orange-back: #FFF8E3;
-
-  --color-light-red: #FF7979;
-  --color-light-red-back: #FFE1E1;
+body {
+  background-color: #EFEAD8;
+  background-color: var(--color-fb-cream);
+  position: relative;
+  min-height: 100vh;
 }
