@@ -21,7 +21,7 @@ const typeLabels: Record<string, string> = { annee: "Année", notes: "Notes", du
 
 export default function Game() {
   const location = useLocation();
-  const difficulte = location.state?.difficulte ?? "facile";
+  const difficulte = location.state?.difficulte ?? "inconnue";
   const type = location.state?.type ?? "annee";
   const key = (difficulte === "facile" || difficulte === "normale" ? difficulte : "default") as DifficulteKey;
   const currentStyle = stylesMap[key];
@@ -61,9 +61,6 @@ export default function Game() {
 
   if (store.isLoading) return <div className="min-h-screen flex items-center justify-center font-bold">Chargement...</div>;
   if (store.gameStatus !== 'playing') return <GameEnd gameStatus={store.gameStatus} timelineLength={store.timeline.length} initGame={store.initGame} difficulte={difficulte} type={type} currentStyle={currentStyle} />;
-
-  const isTypeActive = (currentType: string) => type === currentType;
-  const isDateOrAnneeActive = type === "date" || type === "annee";
 
   return (
     <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
