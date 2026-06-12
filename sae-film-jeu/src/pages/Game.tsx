@@ -104,7 +104,7 @@ export default function Game() {
 
         <GameBoard timeline={store.timeline} isSelected={isSelected} processPlacement={processPlacement} type={type} />
 
-        <GameFooter activeCard={store.activeCard} type={type} isSelected={isSelected} setIsSelected={setIsSelected} currentStyle={currentStyle} generateHint={store.generateHint} hintsCount={store.hintsCount} currentHint={store.currentHint} />
+        <GameFooter activeCard={store.activeCard} type={type} deckLength={store.deck.length} isSelected={isSelected} setIsSelected={setIsSelected} currentStyle={currentStyle} generateHint={store.generateHint} hintsCount={store.hintsCount} currentHint={store.currentHint} />
 
         {/* Le DragOverlay suit le curseur/doigt pendant le déplacement */}
         <DragOverlay dropAnimation={{ duration: 200 }}>
