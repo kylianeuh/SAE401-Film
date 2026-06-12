@@ -39,18 +39,38 @@ export default function Game() {
 
   useEffect(() => { store.initGame(difficulte, type, currentStyle.chances); }, [difficulte, type, currentStyle.chances]);
 
-  const processPlacement = (dropIndex: number) => {
+  /*const processPlacement = (dropIndex: number) => {
     const result = store.handlePlacement(dropIndex, type);
     if (result === 'success') setMessage({ text: "Bien joué !", type: "success" });
     else if (result === 'warning') setMessage({ text: store.globalChancesLeft === Infinity ? "Faux ! Carte défaussée." : `Faux ! Il reste ${store.globalChancesLeft} vie(s).`, type: "warning" });
-    
+
+    setTimeout(() => setMessage(null), 2000);
+    setIsSelected(false);
+  };*/
+
+  const processPlacement = (dropIndex: number) => {
+    const result = store.handlePlacement(dropIndex, type);
+
+    if (result === 'success') {
+      // Affiche par exemple "SCÈNE 3 RÉUSSIE ! 🎬"
+      const sceneNumero = store.timeline.length;
+      setMessage({ text: `SCÈNE ${sceneNumero} RÉUSSIE !`, type: "success" });
+    } else if (result === 'warning') {
+      // Si le joueur a des vies (Mode Prise n°1), on parle de prise ratée, sinon de scène coupée
+      const messageTexte = store.globalChancesLeft === Infinity
+        ? "COUPEZ ! SCÈNE RATÉE !"
+        : `PRISE RATÉE ! IL RESTE ${store.globalChancesLeft} ESSAI(S) !`;
+
+      setMessage({ text: messageTexte, type: "warning" });
+    }
+
     setTimeout(() => setMessage(null), 2000);
     setIsSelected(false);
   };
 
   // Événements du DND Kit
   const handleDragStart = () => { setActiveDragItem(true); };
-  
+
   const handleDragEnd = (event: any) => {
     setActiveDragItem(false);
     const { over } = event;
@@ -65,19 +85,27 @@ export default function Game() {
   return (
     <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
       <section className={`flex flex-col items-center ${currentStyle.back} min-h-screen w-full px-4 pb-6`}>
-        
+
         <GameHeader difficulte={difficulte} typeLabel={typeLabels[type] ?? "Inconnu"} currentStyle={currentStyle} globalChancesLeft={store.globalChancesLeft} deckLength={store.deck.length} hintsCount={store.hintsCount} />
-        <div className={`h-1 w-full max-w-7xl ${currentStyle.line} opacity-50 my-4 rounded-full`}></div>
-        
-        <div className="h-10 w-full flex justify-center items-center">
-          {message && <div className={`px-6 py-2 rounded-full text-white font-bold animate-pulse ${message.type === "success" ? "bg-green-500" : "bg-orange-500"}`}>{message.text}</div>}
+
+        <div className="h-7 w-full flex justify-center items-center my-1 relative z-20">
+          {message && (
+            <div
+              className={`px-4 py-1 font-limelight uppercase text-xs tracking-wider ${message.type === "success" ? "bg-fb-dark text-fb-cream" : "bg-fb-red text-fb-cream"
+                }`}
+              style={{
+                animation: 'fadeOut 3s forwards'
+              }}
+            >
+              {message.text}
+            </div>
+          )}
         </div>
 
         <GameBoard timeline={store.timeline} isSelected={isSelected} processPlacement={processPlacement} type={type} />
-        <div className={`h-1 w-full max-w-7xl ${currentStyle.line} opacity-50 my-4 rounded-full`}></div>
-        
+
         <GameFooter activeCard={store.activeCard} type={type} isSelected={isSelected} setIsSelected={setIsSelected} currentStyle={currentStyle} generateHint={store.generateHint} hintsCount={store.hintsCount} currentHint={store.currentHint} />
-        
+
         {/* Le DragOverlay suit le curseur/doigt pendant le déplacement */}
         <DragOverlay dropAnimation={{ duration: 200 }}>
           {activeDragItem && store.activeCard ? <Cards film={store.activeCard} /> : null}

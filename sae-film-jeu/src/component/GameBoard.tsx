@@ -5,7 +5,6 @@ import { formatDisplayValue } from '../utils/formatters';
 
 export default function GameBoard({ timeline, isSelected, processPlacement, type }: any) {
   
-  // Sous-composant Droppable pour les zones de dépôt
   const Zone = ({ index }: { index: number }) => {
     const { isOver, setNodeRef } = useDroppable({ id: index });
 
@@ -13,26 +12,38 @@ export default function GameBoard({ timeline, isSelected, processPlacement, type
       <div
         ref={setNodeRef}
         onClick={() => isSelected && processPlacement(index)}
-        className={`shrink-0 transition-colors duration-200 rounded-xl mx-2 flex items-center justify-center cursor-pointer w-16 md:w-24 h-44 md:h-64 border-2 border-dashed
-          ${isOver || isSelected ? "bg-slate-800/10 border-slate-800/50 hover:bg-slate-800/20" : "bg-transparent border-slate-800/30 hover:border-slate-800/50 hover:bg-slate-800/5"}
-        `}
+        className={`shrink-0 transition-all duration-200 mx-2 flex items-center justify-center cursor-pointer w-16 md:w-24 h-44 md:h-64 border-2 border-dashed border-fb-red/60
+          ${isOver ? "bg-fb-red/20 scale-105" : "bg-[#EADCB9] hover:bg-[#dfcfab]"}`}
       >
-        <span className={`text-2xl font-bold transition-colors duration-200 ${isOver || isSelected ? "text-slate-800" : "text-slate-800/40"}`}>+</span>
+        <span className="text-fb-red font-limelight text-2xl md:text-3xl">+</span>
       </div>
     );
   };
 
   return (
-    <main className="w-full flex-1 flex flex-col items-center justify-center py-4 overflow-hidden h-auto gap-8">
-      <div className="flex items-center overflow-x-auto w-full max-w-full px-[5%] py-6 min-h-[300px] scrollbar-thin scrollbar-thumb-slate-400">
-        <Zone index={0} />
-        {timeline.map((film: any, index: number) => (
-          <React.Fragment key={`${film.id}-${index}`}>
-            <Cards film={film} displayValue={formatDisplayValue(film, type)} />
-            <Zone index={index + 1} />
-          </React.Fragment>
-        ))}
+    <main className="w-full flex-1 flex flex-col items-center justify-center relative z-10">
+      
+      <div className="h-1.5 w-full max-w-7xl bg-fb-dark full"></div>
+
+      <div className="flex items-center overflow-x-auto w-full max-w-7xl px-2 py-2 min-h-[220px] md:min-h-[280px] scrollbar-thin scrollbar-thumb-fb-dark/40">
+        <div className="flex items-center min-w-full justify-start">
+          
+          <Zone index={0} />
+          
+          {timeline.map((film: any, index: number) => (
+            <React.Fragment key={`${film.id}-${index}`}>
+              <div className="shrink-0 scale-90 md:scale-95 transition-transform">
+                <Cards film={film} displayValue={formatDisplayValue(film, type)} />
+              </div>
+              <Zone index={index + 1} />
+            </React.Fragment>
+          ))}
+
+        </div>
       </div>
+
+      <div className="h-1.5 w-full max-w-7xl bg-fb-dark full"></div>
+
     </main>
   );
 }
