@@ -11,10 +11,10 @@ export default function GameEnd({ gameStatus, timelineLength, initGame, difficul
         {gameStatus === 'won' ? `Félicitations, tu as placé ${timelineLength} cartes correctement !` : "Tu n'as plus de vies. La ligne du temps est brisée..."}
       </p>
       <div className="flex flex-col sm:flex-row gap-4">
-        <button onClick={() => initGame(difficulte, type, currentStyle.chances)} className={`px-8 py-4 text-lg md:text-xl font-bold shadow-lg transition-transform hover:scale-105 ${currentStyle.badge}`}>
+        <button onClick={() => initGame(difficulte, type, currentStyle.chances)} className={`px-8 py-4 rounded-xl text-lg md:text-xl font-bold shadow-lg transition-transform hover:scale-105 ${currentStyle.badge}`}>
           Rejouer
         </button>
-        <Link to="/" className="px-8 py-4 text-lg md:text-xl font-bold bg-slate-800 text-white shadow-lg transition-transform hover:scale-105 hover:bg-slate-700 text-center">
+        <Link to="/" className="px-8 py-4 rounded-xl text-lg md:text-xl font-bold bg-slate-800 text-white shadow-lg transition-transform hover:scale-105 hover:bg-slate-700 text-center">
           Menu Principal
         </Link>
       </div>

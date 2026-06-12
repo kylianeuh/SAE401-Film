@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 function Home() {
   return (
-    <section className="flex flex-col items-center bg-fb-cream/2 min-h-screen p-3 md:p-6 relative text-fb-dark font-rokkitt">
+    <section className="flex flex-col items-center bg-fb-cream min-h-screen p-3 md:p-6 relative text-fb-dark font-rokkitt">
       
       <div className="w-full max-w-7xl flex items-center justify-between mt-2 mb-4 relative">
         

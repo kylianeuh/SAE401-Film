@@ -5,36 +5,11 @@ import "../index.css";
 type DifficulteKey = "facile" | "normale" | "default";
 
 const menuItems = [
-  {
-    type: "annee",
-    dificulty: 1,
-    label: "ANNEE DE PRODUCTION",
-    desc: "Classez les œuvres selon leur année de sortie en salles.",
-  },
-  {
-    type: "date",
-    dificulty: 2,
-    label: "LA PREMIERE",
-    desc: "Soyez précis : triez les films au jour près pour départager les films sortis la même année.",
-  },
-  {
-    type: "notes",
-    dificulty: 2,
-    label: "APPRECIATION CRITIQUE",
-    desc: "Classez les films selon leur note globale d'appréciation du public.",
-  },
-  {
-    type: "duree",
-    dificulty: 3,
-    label: "METRAGE",
-    desc: "Ordonnez les bobines de la plus courte à la plus longue.",
-  },
-  {
-    type: "recette",
-    dificulty: 3,
-    label: "RECETTES COMMERCIALES",
-    desc: "Rangez les films selon les recettes récoltées dans le monde.",
-  },
+  { type: "annee", label: "ANNEE DE PRODUCTION", desc: "Classez les œuvres selon leur année de sortie en salles." },
+  { type: "date", label: "LA PREMIERE", desc: "Soyez précis : triez les films au jour près pour départager les films sortis la même année." },
+  { type: "notes", label: "APPRECIATION CRITIQUE", desc: "Classez les films selon leur note globale d'appréciation du public." },
+  { type: "duree", label: "METRAGE", desc: "Ordonnez les bobines de la plus courte à la plus longue." },
+  { type: "recette", label: "RECETTES COMMERCIALES", desc: "Rangez les films selon les recettes récoltées dans le monde." },
 ];
 
 const titleMap: Record<DifficulteKey, string> = {
@@ -50,20 +25,21 @@ function GameType() {
   const key = (
     difficulte === "facile" || difficulte === "normale" ? difficulte : "default"
   ) as DifficulteKey;
+  
   const currentTitle = titleMap[key];
+  
+  // On calcule le nombre d'étoiles à remplir en fonction du mode de jeu
+  const starsCount = key === "facile" ? 1 : key === "normale" ? 2 : 3;
 
   return (
     <section className="flex flex-col items-center min-h-screen w-full px-4 pb-12 text-fb-dark font-rokkitt justify-start">
+      
       <header className="w-full max-w-7xl flex items-center justify-between mt-4 mb-2">
         <Link
           to="/"
           className="w-10 h-10 text-fb-dark hover:scale-105 transition-transform flex items-center justify-center cursor-pointer"
         >
-          <svg
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            className="w-full h-full"
-          >
+          <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
             <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" />
           </svg>
         </Link>
@@ -74,10 +50,24 @@ function GameType() {
       </header>
 
       <div className="w-full max-w-7xl border-3 border-fb-dark p-1 bg-fb-dark mb-8 rounded-sm shadow-md">
-        <div className="w-full bg-fb-red border-[3px] border-fb-dark py-4 px-6 text-center">
+        <div className="w-full bg-fb-red border-[3px] border-fb-dark py-4 px-6 text-center flex flex-col items-center">
           <h2 className="font-limelight uppercase text-fb-cream text-3xl sm:text-4xl md:text-6xl tracking-widest leading-none drop-shadow-md">
             {currentTitle}
           </h2>
+          
+          {/* L'affichage des étoiles de difficulté est ici ! */}
+          <div className="flex gap-2 mt-3">
+            {Array.from({ length: 3 }).map((_, index) => (
+              <Star
+                key={index}
+                className={`w-6 h-6 md:w-8 md:h-8 transition-colors ${
+                  index < starsCount
+                    ? "fill-fb-cream text-fb-cream" // Étoile pleine (crème)
+                    : "text-fb-cream/30" // Étoile vide (crème transparente)
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
@@ -95,27 +85,9 @@ function GameType() {
                   state={{ type: item.type, difficulte: difficulte }}
                   className="block text-left group cursor-pointer transition-all duration-200"
                 >
-                  {/* Conteneur flex pour aligner le titre et les étoiles sur la même ligne */}
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-1 md:gap-4">
-                    <h4 className="font-limelight text-xl md:text-2xl text-fb-dark uppercase tracking-wide group-hover:text-fb-red group-hover:translate-x-1 transition-all">
-                      {item.label}
-                    </h4>
-
-                    {/* Génération dynamique des étoiles selon item.dificulty */}
-                    <div className="flex gap-1 shrink-0 mt-1 md:mt-0">
-                      {Array.from({ length: 3 }).map((_, index) => (
-                        <Star
-                          key={index}
-                          className={`w-4 h-4 md:w-5 md:h-5 transition-colors ${
-                            index < item.dificulty
-                              ? "fill-fb-red text-fb-red" // Étoile pleine
-                              : "text-fb-dark/20" // Étoile vide/grisée
-                          }`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-
+                  <h4 className="font-limelight text-xl md:text-2xl text-fb-dark uppercase tracking-wide group-hover:text-fb-red group-hover:translate-x-1 transition-all">
+                    {item.label}
+                  </h4>
                   <p className="text-sm md:text-base text-fb-dark/80 font-medium leading-tight mt-0.5">
                     {item.desc}
                   </p>
@@ -139,24 +111,10 @@ function GameType() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-fb-dark/10 opacity-90">
-                  <tr>
-                    <td className="py-0.5">08/06</td>
-                    <td className="py-0.5 text-right">13 cartes</td>
-                  </tr>
-                  <tr>
-                    <td className="py-0.5">08/06</td>
-                    <td className="py-0.5 text-right">5 cartes</td>
-                  </tr>
-                  <tr>
-                    <td className="py-0.5">03/06</td>
-                    <td className="py-0.5 text-right">17 cartes</td>
-                  </tr>
-                  {key === "default" && (
-                    <tr>
-                      <td className="py-0.5">02/06</td>
-                      <td className="py-0.5 text-right">21 cartes</td>
-                    </tr>
-                  )}
+                  <tr><td className="py-0.5">08/06</td><td className="py-0.5 text-right">13 cartes</td></tr>
+                  <tr><td className="py-0.5">08/06</td><td className="py-0.5 text-right">5 cartes</td></tr>
+                  <tr><td className="py-0.5">03/06</td><td className="py-0.5 text-right">17 cartes</td></tr>
+                  {key === "default" && <tr><td className="py-0.5">02/06</td><td className="py-0.5 text-right">21 cartes</td></tr>}
                 </tbody>
               </table>
             </div>
@@ -176,22 +134,10 @@ function GameType() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-fb-dark/10 opacity-90">
-                    <tr>
-                      <td className="py-0.5">Joueur1</td>
-                      <td className="py-0.5 text-right">42</td>
-                    </tr>
-                    <tr>
-                      <td className="py-0.5">Joueur1</td>
-                      <td className="py-0.5 text-right">35</td>
-                    </tr>
-                    <tr>
-                      <td className="py-0.5">Joueur1</td>
-                      <td className="py-0.5 text-right">21</td>
-                    </tr>
-                    <tr>
-                      <td className="py-0.5">Joueur1</td>
-                      <td className="py-0.5 text-right">19</td>
-                    </tr>
+                    <tr><td className="py-0.5">Joueur1</td><td className="py-0.5 text-right">42</td></tr>
+                    <tr><td className="py-0.5">Joueur1</td><td className="py-0.5 text-right">35</td></tr>
+                    <tr><td className="py-0.5">Joueur1</td><td className="py-0.5 text-right">21</td></tr>
+                    <tr><td className="py-0.5">Joueur1</td><td className="py-0.5 text-right">19</td></tr>
                   </tbody>
                 </table>
               </div>

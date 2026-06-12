@@ -12,8 +12,8 @@ export default function GameBoard({ timeline, isSelected, processPlacement, type
       <div
         ref={setNodeRef}
         onClick={() => isSelected && processPlacement(index)}
-        className={`shrink-0 transition-all duration-200 mx-2 flex items-center justify-center cursor-pointer w-16 md:w-16 h-44 md:h-64 border-2 border-dashed border-fb-red/60
-          ${isOver ? "bg-fb-red/20 scale-105" : "bg-[#EADCB9]/60 hover:bg-[#dfcfab]/80"}`}
+        className={`shrink-0 transition-all duration-200 mx-2 flex items-center justify-center cursor-pointer w-16 md:w-24 h-44 md:h-64 border-2 border-dashed border-fb-red/60
+          ${isOver ? "bg-fb-red/20 scale-105" : "bg-[#EADCB9] hover:bg-[#dfcfab]"}`}
       >
         <span className="text-fb-red font-limelight text-2xl md:text-3xl">+</span>
       </div>

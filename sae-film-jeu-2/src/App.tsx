@@ -12,7 +12,7 @@ function App() {
         
         {/* 2. La texture globale superposée, invisible pour PostCSS mais active partout */}
         <div 
-          className="absolute inset-0 opacity-30 pointer-events-none z-10 bg-repeat" 
+          className="absolute inset-0 opacity-30 pointer-events-none z-50 bg-repeat" 
           style={{ backgroundImage: "url('/src/assets/texture.png')" }}
         />
         

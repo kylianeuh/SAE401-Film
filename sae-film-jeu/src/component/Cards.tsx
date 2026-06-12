@@ -24,21 +24,36 @@ export default function Cards({ film, displayValue, isSelected = false, onClick 
       <div 
         onClick={onClick}
         onContextMenu={handleContextMenu}
-        className={`relative w-32 h-44 md:w-44 md:h-64 border-2 rounded-2xl overflow-hidden group select-none shrink-0 transform-gpu transition-all duration-200
-          ${isSelected ? 'ring-4 ring-blue-500 scale-105' : 'border-transparent shadow-lg'}
+        className={`relative w-36 h-60 md:w-44 md:h-72 bg-fb-dark flex flex-col p-4.5 select-none shrink-0 transform-gpu transition-all duration-200 cursor-pointer shadow-xl z-20
+          [mask-image:url(/src/assets/format-carte.svg)] [mask-size:100%_100%] [mask-repeat:no-repeat]
+          ${isSelected ? 'scale-105 ring-4 ring-fb-red' : 'hover:scale-[1.02]'}
         `}
       >
-        <img src={film.image} alt={film.titre} className='w-full h-full object-cover pointer-events-none select-none' />
         
-        <div className='absolute bottom-0 left-0 w-full pt-20 pb-4 px-1 bg-gradient-to-t from-black/90 via-black/70 to-transparent pointer-events-none'>
-          <p className='text-white text-xs md:text-sm font-medium text-center line-clamp-2'>{film.titre}</p>
+        <div className="w-full h-full border-[1.5px] border-fb-cream flex flex-col justify-between overflow-hidden relative ">
+          
+          <div className="w-full flex-1 relative bg-fb-dark overflow-hidden">
+            <img 
+              src={film.image} 
+              alt={film.titre} 
+              className="w-full h-full object-cover pointer-events-none select-none" 
+            />
+            
+            {displayValue && (
+              <div className="absolute top-0 left-0 w-full bg-fb-dark/95 text-fb-cream text-center py-0.5 font-limelight text-[10px] tracking-wider uppercase border-b border-fb-cream/30">
+                {displayValue}
+              </div>
+            )}
+          </div>
+
+          <div className="w-full bg-fb-red border-t-[1.5px] border-fb-cream/90 py-1 px-1.5 text-center shrink-0 flex items-center justify-center min-h-[28px] h-auto">
+            <p className="text-fb-cream text-[11px] md:text-xs font-rokkitt font-bold leading-tight tracking-wide w-full break-words text-center">
+              {film.titre}
+            </p>
+          </div>
+
         </div>
 
-        {displayValue && (
-          <div className="absolute top-0 left-0 w-full bg-slate-900/90 text-white text-center py-2 font-bold transform -translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-            {displayValue}
-          </div>
-        )}
       </div>
 
       <RightClick contextMenu={contextMenu} film={film} closeContextMenu={closeContextMenu} />
