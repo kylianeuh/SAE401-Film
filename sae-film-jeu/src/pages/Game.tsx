@@ -17,7 +17,7 @@ const stylesMap: Record<DifficulteKey, { back: string; badge: string; line: stri
   default: { back: "bg-light-red-back", badge: "bg-light-red text-light-red", line: "bg-light-red", chances: 1 },
 };
 
-const typeLabels: Record<string, string> = { annee: "Année", notes: "Notes", duree: "Durée", recette: "Recette", date: "Date Précise" };
+const typeLabels: Record<string, string> = { annee: 'ANNEE DE PRODUCTION', notes: 'APPRECIATION CRITIQUE', duree: 'METRAGE', recette: 'RECETTES COMMERCIALES', date: 'LA PREMIERE' };
 
 export default function Game() {
   const location = useLocation();
@@ -91,10 +91,10 @@ export default function Game() {
         <div className="h-7 w-full flex justify-center items-center my-1 relative z-20">
           {message && (
             <div
-              className={`px-4 py-1 font-limelight uppercase text-xs tracking-wider ${message.type === "success" ? "bg-fb-dark text-fb-cream" : "bg-fb-red text-fb-cream"
+              className={`px-4 py-1 font-rokkitt font-bold uppercase text-lg tracking-wider ${message.type === "success" ? "bg-fb-dark text-fb-cream" : "bg-fb-red text-fb-cream"
                 }`}
               style={{
-                animation: 'fadeOut 3s forwards'
+                animation: 'fadeOut 8s forwards'
               }}
             >
               {message.text}

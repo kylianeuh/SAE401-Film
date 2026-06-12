@@ -64,7 +64,7 @@ export default function GameFooter({ activeCard, type, isSelected, setIsSelected
       </div>
 
       {/* 3. BLOC SYNOPSIS */}
-      <div className="md:col-span-3 border-[4px] border-fb-dark bg-[#F2EAD3]/40 flex flex-col rounded-sm min-h-[280px]">
+      <div className="md:col-span-3 border-[4px] h-80 border-fb-dark bg-[#F2EAD3]/40 flex flex-col rounded-sm min-h-[280px]">
         {/* Titre style maquette */}
         <div className="bg-fb-dark text-fb-cream text-center py-2">
           <h3 className="font-limelight text-lg uppercase tracking-wider">
